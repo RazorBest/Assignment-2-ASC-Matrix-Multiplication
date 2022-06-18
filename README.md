@@ -1,4 +1,4 @@
-# Assignment 2 - Computers Architecture
+# Assignment 2 - Computer Architectures
 
 ## The unoptimised implementation
 This implementation used 3 types of matrix multiplication. But all 3 are
