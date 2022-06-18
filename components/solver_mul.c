@@ -4,10 +4,7 @@
  */
 #include "utils.h"
 
-/*
- * Add your unoptimized implementation here
- */
-
+// Solver that performs matrix multiplication A*B
 double* my_solver(int N, register double *A, register double* B) {
     printf("MUL SOLVER\n");
     register double *C = malloc(N*N * sizeof(*C));

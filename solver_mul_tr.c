@@ -7,10 +7,6 @@
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
-/*
- * Add your unoptimized implementation here
- */
-
 #define BLOCK_SIZE 40
 
 void transpose(double *A, int n) {
