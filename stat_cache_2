@@ -1,0 +1,553 @@
+--------------------------------------------------------------------------------
+I1 cache:         32768 B, 64 B, 8-way associative
+D1 cache:         32768 B, 64 B, 8-way associative
+LL cache:         3145728 B, 64 B, 12-way associative
+Command:          ./tema2_opt_m input5
+Data file:        cachegrind.out.26303
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Events shown:     Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Thresholds:       0.1 100 100 100 100 100 100 100 100
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir          I1mr  ILmr  Dr          D1mr       DLmr   Dw        D1mw    DLmw   
+--------------------------------------------------------------------------------
+926,608,808 1,626 1,611 222,106,679 13,630,993 98,082 2,902,055 179,395 83,534  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir          I1mr ILmr Dr          D1mr      DLmr   Dw      D1mw   DLmw    file:function
+--------------------------------------------------------------------------------
+500,806,032    6    6 128,000,809 8,020,802 17,892 160,009 20,001 20,000  /home/marius/Desktop/work/an3/asc/tema2/solver_opt.c:mul_sym
+291,699,455   11   11  64,644,822 4,118,310 28,521 160,814      0      0  /home/marius/Desktop/work/an3/asc/tema2/solver_opt.c:mult_mat_trans_add
+112,122,541   15   15  22,135,237 1,425,876      4 240,648 88,115 20,002  /home/marius/Desktop/work/an3/asc/tema2/solver_opt.c:my_solver
+  7,655,408    3    3   1,921,600         0      0 720,600      0      0  /build/glibc-sMfBJT/glibc-2.31/stdlib/random_r.c:random_r
+  5,054,272    4    4   2,167,024         1      0 481,218 30,495 30,494  /home/marius/Desktop/work/an3/asc/tema2/main.c:generate_data
+  5,044,200    3    3   1,921,600         0      0 480,400      0      0  /build/glibc-sMfBJT/glibc-2.31/stdlib/random.c:random
+  1,287,695    9    9     375,074    23,027  9,360 240,209      0      0  /home/marius/Desktop/work/an3/asc/tema2/solver_opt.c:transpose
+  1,201,000    1    1     240,200         0      0 240,200      0      0  /build/glibc-sMfBJT/glibc-2.31/stdlib/rand.c:rand
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/marius/Desktop/work/an3/asc/tema2/main.c
+--------------------------------------------------------------------------------
+Ir        I1mr ILmr Dr        D1mr DLmr Dw      D1mw   DLmw   
+
+-- line 24 ----------------------------------------
+        .    .    .         .    .    .       .      .      .  	goto failure;			\
+        .    .    .         .    .    .       .      .      .  }
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  /*
+        .    .    .         .    .    .       .      .      .   * Function which reads an input file in a specific format and fills
+        .    .    .         .    .    .       .      .      .   * a vector of 'struct test's.
+        .    .    .         .    .    .       .      .      .   */
+        .    .    .         .    .    .       .      .      .  int read_input_file(char *input_file, int *num_tests, struct test **tests)
+       11    2    2         1    0    0       6      2      2  {
+        1    0    0         0    0    0       1      0      0  	FILE *file = NULL;
+        1    0    0         0    0    0       1      0      0  	struct test *aux = NULL;
+        2    0    0         0    0    0       2      0      0  	int ret = 0, i = 0;
+        .    .    .         .    .    .       .      .      .  
+        5    1    1         1    0    0       2      1      0  	file = fopen(input_file, "r");
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(file == 0, "Failed opening file");
+        .    .    .         .    .    .       .      .      .  
+        7    1    1         2    0    0       2      0      0  	ret = fscanf(file, "%d\n", num_tests);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(ret < 1, "Failed reading from file");
+        .    .    .         .    .    .       .      .      .  
+       14    1    1         3    0    0       2      1      0  	*tests = (struct test*) malloc(*num_tests * sizeof **tests);
+        5    0    0         2    0    0       0      0      0  	SAFE_ASSERT(*tests == 0, "Failed malloc");
+        .    .    .         .    .    .       .      .      .  
+        3    1    1         2    0    0       1      0      0  	aux = *tests;
+        .    .    .         .    .    .       .      .      .  
+       11    1    1         7    0    0       1      0      0  	for (i = 0; i < *num_tests; i++) {
+        .    .    .         .    .    .       .      .      .  		struct test t;
+        .    .    .         .    .    .       .      .      .  
+       14    1    1         1    0    0       2      0      0  		ret = fscanf(file, "%d %d %s\n", &t.N, &t.seed, t.output_save_file);
+        2    0    0         1    0    0       0      0      0  		SAFE_ASSERT(ret == 0, "Failed reading from file");
+        .    .    .         .    .    .       .      .      .  
+       31    2    2        15    2    1      15      1      1  		*aux++ = t;
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+        3    0    0         1    0    0       1      0      0  	fclose(file);
+        2    0    0         0    0    0       0      0      0  	return 0;
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  failure:
+        .    .    .         .    .    .       .      .      .  	if (aux) {
+        .    .    .         .    .    .       .      .      .  		free(aux);
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  	if (file) {
+        .    .    .         .    .    .       .      .      .  		fclose(file);
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  	return -1;
+        7    2    2         5    0    0       0      0      0  }
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  /*
+        .    .    .         .    .    .       .      .      .   * Write a NxN complex number matrix to a binary file 
+        .    .    .         .    .    .       .      .      .   */
+        7    0    0         0    0    0       4      0      0  int write_cmat_file(char *filepath, int N, double *data) {
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  	int ret, fd;
+        .    .    .         .    .    .       .      .      .  	size_t size;
+        1    0    0         0    0    0       1      0      0  	double *map = NULL;
+        .    .    .         .    .    .       .      .      .  
+        7    1    1         1    0    0       2      0      0  	fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, (mode_t)0777);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(fd < 0, "Error opening file for writing");
+        .    .    .         .    .    .       .      .      .  
+        5    0    0         1    0    0       1      0      0  	size = N * N * sizeof(double);
+        .    .    .         .    .    .       .      .      .  
+        9    1    1         2    0    0       2      0      0  	ret = lseek(fd, size - 1, SEEK_SET);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(ret < 0, "Error calling lseek() to stretch file");
+        .    .    .         .    .    .       .      .      .  
+        6    1    1         1    0    0       2      0      0  	ret = write(fd, "", 1);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(ret < 0, "Error writing in file");
+        .    .    .         .    .    .       .      .      .  
+       10    1    1         2    0    0       2      0      0  	map = (double *)mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(map == MAP_FAILED, "Error mapping the file");
+        .    .    .         .    .    .       .      .      .  
+        6    0    0         3    0    0       1      0      0  	memcpy(map, data, size);
+        .    .    .         .    .    .       .      .      .  
+        7    1    1         2    1    0       2      0      0  	ret = msync(map, size, MS_SYNC);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(ret < 0, "Could not sync the file to disk"); 
+        .    .    .         .    .    .       .      .      .  
+        6    0    0         2    0    0       2      0      0  	ret = munmap(map, size);
+        2    0    0         1    0    0       0      0      0  	SAFE_ASSERT(ret < 0, "Error unmapping the file");
+        .    .    .         .    .    .       .      .      .  
+        3    0    0         1    0    0       1      0      0  	close(fd);
+        2    0    0         0    0    0       0      0      0  	return 0;
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  failure:
+        .    .    .         .    .    .       .      .      .  	if (fd > 0) {
+        .    .    .         .    .    .       .      .      .  		close(fd);
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  	return -1;
+        2    0    0         2    0    0       0      0      0  }
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  /*
+        .    .    .         .    .    .       .      .      .   * Generate the test data, based on the number of elements and
+        .    .    .         .    .    .       .      .      .   * the seed in the struct test. Allocates the arrays and fills
+        .    .    .         .    .    .       .      .      .   * them with random numbers in [-RANGE, RANGE] (see RANGE define
+        .    .    .         .    .    .       .      .      .   * above).
+        .    .    .         .    .    .       .      .      .   */
+        .    .    .         .    .    .       .      .      .  int generate_data(struct test t, double **A, int triangular)
+       12    2    2         0    0    0       6      0      0  {
+        4    0    0         2    0    0       2      0      0  	int N = t.N, i, j;
+        .    .    .         .    .    .       .      .      .  	double *aux;
+        .    .    .         .    .    .       .      .      .  
+       18    0    0         4    0    0       4      1      0  	*A = (double*) calloc(N * N, sizeof(double));
+       10    0    0         4    0    0       0      0      0  	SAFE_ASSERT(*A == 0, "Failed calloc");
+        .    .    .         .    .    .       .      .      .  
+        6    1    1         4    0    0       2      0      0  	aux = *A;
+        .    .    .         .    .    .       .      .      .  
+        6    0    0         2    0    0       2      0      0  	srand(t.seed);
+        .    .    .         .    .    .       .      .      .  
+    3,210    0    0     2,404    0    0       2      0      0  	for (i = 0; i < N; ++i) {
+  967,600    1    1   723,400    0    0     800      0      0  		for ( j = (triangular ? i : 0); j < N; ++j) {
+4,083,400    0    0 1,441,200    1    0 480,400 30,494 30,494  			aux[i * N + j] = get_rand_double(RANGE);
+        .    .    .         .    .    .       .      .      .  		}
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+        2    0    0         0    0    0       0      0      0  	return 0;
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  failure:
+        .    .    .         .    .    .       .      .      .  	return -1;
+        4    0    0         4    0    0       0      0      0  }
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  /*
+        .    .    .         .    .    .       .      .      .   * Generates data and runs the solver on the data.
+        .    .    .         .    .    .       .      .      .   */
+        .    .    .         .    .    .       .      .      .  int run_test(struct test t, Solver solve, float *elapsed)
+       10    2    2         1    0    0       5      0      0  {
+        .    .    .         .    .    .       .      .      .  	double *A, *B, *res;
+        .    .    .         .    .    .       .      .      .  	int ret;
+        .    .    .         .    .    .       .      .      .  	struct timeval start, end;
+        .    .    .         .    .    .       .      .      .  
+       36    2    2        14    0    0      16      1      0  	ret = generate_data(t, &A, 1);
+        2    0    0         1    0    0       0      0      0  	if (ret < 0)
+        .    .    .         .    .    .       .      .      .  		return ret;
+        .    .    .         .    .    .       .      .      .  
+       36    2    2        14    3    0      16      2      0  	ret = generate_data(t, &B, 0);
+        2    1    1         1    0    0       0      0      0  	if (ret < 0)
+        .    .    .         .    .    .       .      .      .  		return ret;
+        .    .    .         .    .    .       .      .      .  
+        4    0    0         0    0    0       1      0      0  	gettimeofday(&start, NULL);
+        8    0    0         4    2    0       2      1      1  	res = solve(t.N, A, B);
+        4    1    1         0    0    0       1      0      0  	gettimeofday(&end, NULL);
+        .    .    .         .    .    .       .      .      .  
+        2    0    0         1    0    0       0      0      0  	if (res) {
+        6    0    0         2    1    1       1      0      0  		write_cmat_file(t.output_save_file, t.N, res);
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+       17    1    1         7    2    1       1      1      1  	*elapsed = ((end.tv_sec - start.tv_sec) * 1000000.0f + end.tv_usec - start.tv_usec) / 1000000.0f;
+        .    .    .         .    .    .       .      .      .  
+        3    0    0         1    0    0       0      0      0  	if (A) {
+        3    1    1         1    0    0       1      0      0  		free(A);
+        .    .    .         .    .    .       .      .      .  	}
+        3    0    0         1    0    0       0      0      0  	if (B) {
+        3    0    0         1    0    0       1      0      0  		free(B);
+        .    .    .         .    .    .       .      .      .  	}
+        2    0    0         1    0    0       0      0      0  	if (res) {
+        3    0    0         1    0    0       1      0      0  		free(res);
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+        1    0    0         0    0    0       0      0      0  	return 0;
+        6    1    1         5    1    0       0      0      0  }
+        .    .    .         .    .    .       .      .      .  
+       10    1    1         1    0    0       5      0      0  int main(int argc, char **argv) {
+        .    .    .         .    .    .       .      .      .  	int num_tests, ret, i;
+        .    .    .         .    .    .       .      .      .  	struct test *tests;
+        2    0    0         1    1    1       1      0      0  	float start_bonus_time = 9.00;
+        2    1    1         1    0    0       1      0      0  	float stop_bonus_time = 5.00;
+        2    0    0         0    0    0       1      0      0  	float bonus = 0;
+        .    .    .         .    .    .       .      .      .  
+        2    0    0         1    0    0       0      0      0  	if (argc < 2) {
+        .    .    .         .    .    .       .      .      .  		printf("Please provide an input file: %s input_file\n", argv[0]);
+        .    .    .         .    .    .       .      .      .  		return -1;
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+        9    1    1         2    0    0       2      0      0  	ret = read_input_file(argv[1], &num_tests, &tests);
+        2    0    0         1    0    0       0      0      0  	if(ret < 0)
+        .    .    .         .    .    .       .      .      .  		return ret;
+        .    .    .         .    .    .       .      .      .  	
+        9    1    1         5    0    0       1      0      0  	for (i = 0; i < num_tests; i++) {
+        2    1    1         0    0    0       1      0      0  		float current_elapsed = 0.0f;
+        .    .    .         .    .    .       .      .      .  
+       46    2    2        16    0    0      16      0      0  		ret = run_test(tests[i], my_solver, &current_elapsed);
+        2    0    0         1    0    0       0      0      0  		if (ret < 0){
+        .    .    .         .    .    .       .      .      .  			free(tests);
+        .    .    .         .    .    .       .      .      .  			return -1;
+        .    .    .         .    .    .       .      .      .  		}
+       19    2    2         6    3    3       1      0      0  		printf("Run=%s: N=%d: Time=%.6f\n", 	argv[0], tests[i].N, current_elapsed);
+        7    0    0         2    0    0       1      0      0  		if (!strcmp(argv[0], "./tema2_opt_m")) {
+       13    1    1         3    0    0       0      0      0  			if (tests[i].N == 1200) {
+        .    .    .         .    .    .       .      .      .  				float current_bonus;
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  				current_bonus = (start_bonus_time - current_elapsed) /
+        .    .    .         .    .    .       .      .      .  					(start_bonus_time - stop_bonus_time) * MAX_BONUS;
+        .    .    .         .    .    .       .      .      .  				if (current_bonus <= 0) {
+        .    .    .         .    .    .       .      .      .  					current_bonus = 0;
+        .    .    .         .    .    .       .      .      .  				} else if (current_bonus >= MAX_BONUS) {
+        .    .    .         .    .    .       .      .      .  					current_bonus = MAX_BONUS; 
+-- line 215 ----------------------------------------
+-- line 216 ----------------------------------------
+        .    .    .         .    .    .       .      .      .  				}
+        .    .    .         .    .    .       .      .      .  
+        .    .    .         .    .    .       .      .      .  				if (current_bonus > bonus)
+        .    .    .         .    .    .       .      .      .  					bonus = current_bonus;
+        .    .    .         .    .    .       .      .      .  			}
+        .    .    .         .    .    .       .      .      .  		}
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  	
+        7    1    1         2    0    0       1      0      0  	if (!strcmp(argv[0], "./tema2_opt_m")) {
+        8    0    0         2    0    0       1      0      0  		printf("<<< Bonus=%dp >>>\n", (int)(bonus + 0.5));
+        .    .    .         .    .    .       .      .      .  	}
+        .    .    .         .    .    .       .      .      .  
+        3    0    0         1    0    0       1      0      0  	free(tests);
+        1    0    0         0    0    0       0      0      0  	return 0;
+        6    1    1         5    0    0       0      0      0  }
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/marius/Desktop/work/an3/asc/tema2/solver_opt.c
+--------------------------------------------------------------------------------
+Ir          I1mr ILmr Dr         D1mr      DLmr   Dw      D1mw   DLmw   
+
+-- line 6 ----------------------------------------
+          .    .    .          .         .      .       .      .      .  #include <string.h>
+          .    .    .          .         .      .       .      .      .  #include <time.h>
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  #define max(a, b) (a) > (b) ? a : b;
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  #define BLOCK_SIZE 40
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  // Set A = A^t
+         10    1    1          0         0      0       8      0      0  void transpose(double *A, int n) {
+          .    .    .          .         .      .       .      .      .      register size_t i, j, k;
+          .    .    .          .         .      .       .      .      .      // Transpose the blocks that are on the main diagonal
+          1    0    0          0         0      0       0      0      0      register size_t i_start = 0;
+         10    0    0          1         0      0       0      0      0      register size_t n_blocks = n / BLOCK_SIZE;
+          .    .    .          .         .      .       .      .      .      // Iterates though the blocks
+         45    1    1          0         0      0       0      0      0      for (k = 0; k < n_blocks; k++) {
+      1,650    0    0          0         0      0       0      0      0          for (i = i_start; i < i_start + BLOCK_SIZE; i++) {
+      3,600    1    1        800         0      0     400      0      0              double *A_lin_1 = &A[i*n + (i + 1)];
+      3,600    1    1        800         0      0     400      0      0              double *A_col_1 = &A[(i + 1)*n + i];
+     33,200    0    0          0         0      0       0      0      0              for (j = i + 1; j < i_start + BLOCK_SIZE; j++) {
+     23,400    0    0     15,600     1,160    421   7,800      0      0                  double aux = *A_lin_1;
+     31,200    0    0     23,400     1,240    399   7,800      0      0                  *A_lin_1 = *A_col_1;
+     23,400    0    0     15,600         0      0   7,800      0      0                  *A_col_1 = aux;
+          .    .    .          .         .      .       .      .      .  
+      7,800    0    0      7,800         0      0       0      0      0                  A_lin_1++;
+     31,200    0    0     15,600         0      0       0      0      0                  A_col_1 += n;
+          .    .    .          .         .      .       .      .      .              }
+          .    .    .          .         .      .       .      .      .          }
+         10    0    0          0         0      0       0      0      0          i_start += BLOCK_SIZE;
+          .    .    .          .         .      .       .      .      .      }
+          .    .    .          .         .      .       .      .      .  
+         45    2    2         21         0      0       1      0      0      for (size_t lb = 0; lb < n_blocks; lb++) {
+         70    0    0         10         0      0       0      0      0          register size_t j_start = (lb + 1) *  BLOCK_SIZE;
+        340    0    0         10         0      0       0      0      0          for (register size_t rb = lb + 1; rb < n_blocks; rb++) {
+        585    1    1        135         0      0       0      0      0              register double *A_lin_2 = &A[(lb*BLOCK_SIZE)*n + j_start];
+     16,875    1    1      1,890         0      0       0      0      0              for (i = lb*BLOCK_SIZE; i < lb*BLOCK_SIZE + BLOCK_SIZE; i++) {
+      1,800    0    0          0         0      0       0      0      0                  register double *A_lin_1 = A_lin_2;//&A[i*n + j_start];
+     12,600    1    1      3,600         0      0       0      0      0                  register double *A_col_1 = &A[j_start*n + i];
+    297,000    0    0          0         0      0       0      0      0                  for (j = j_start; j < j_start + BLOCK_SIZE; j++) {
+    144,000    0    0     72,000     9,886  6,621  72,000      0      0                      double aux = *A_lin_1;
+    144,000    0    0     72,000    10,740  1,919  72,000      0      0                      *A_lin_1 = *A_col_1;
+    144,000    0    0     72,000         0      0  72,000      0      0                      *A_col_1 = aux;
+          .    .    .          .         .      .       .      .      .  
+     72,000    0    0          0         0      0       0      0      0                      A_lin_1++;
+    288,000    0    0     72,000         0      0       0      0      0                      A_col_1 += n;
+          .    .    .          .         .      .       .      .      .                  }
+      7,200    0    0      1,800         0      0       0      0      0                  A_lin_2 += n;
+          .    .    .          .         .      .       .      .      .              }
+         45    0    0          0         0      0       0      0      0              j_start += BLOCK_SIZE;
+          .    .    .          .         .      .       .      .      .          }
+          .    .    .          .         .      .       .      .      .      }
+          9    0    0          7         1      0       0      0      0  }
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  void mul_sym_block_2(double *C, double *A, double *B, int N) {
+          .    .    .          .         .      .       .      .      .      register size_t i;
+          .    .    .          .         .      .       .      .      .      register size_t j;
+          .    .    .          .         .      .       .      .      .      register size_t k;
+          .    .    .          .         .      .       .      .      .      register size_t n = N;
+          .    .    .          .         .      .       .      .      .      const register size_t block_size = 40;
+          .    .    .          .         .      .       .      .      .  
+-- line 64 ----------------------------------------
+-- line 145 ----------------------------------------
+          .    .    .          .         .      .       .      .      .                  B_lin += n - block_size;//Weird
+          .    .    .          .         .      .       .      .      .                  C[i*n + j] += sum1 + sum2 + sum3 + sum4;
+          .    .    .          .         .      .       .      .      .              }
+          .    .    .          .         .      .       .      .      .              A_lin += block_size;
+          .    .    .          .         .      .       .      .      .          }
+          .    .    .          .         .      .       .      .      .      }
+          .    .    .          .         .      .       .      .      .  }
+          .    .    .          .         .      .       .      .      .  
+         12    2    2          0         0      0       9      0      0  void mul_sym(double *C, register double *A, double *B, int N) {
+          .    .    .          .         .      .       .      .      .      register size_t i;
+          2    0    0          1         0      0       0      0      0      const register size_t n = N;
+          3    0    0          0         0      0       0      0      0      const register size_t nsq = n*n;
+          .    .    .          .         .      .       .      .      .  
+          1    0    0          0         0      0       0      0      0      register double *A_lin = A;
+          1    0    0          1         0      0       0      0      0      register double *C_lin = C;
+          .    .    .          .         .      .       .      .      .  
+      1,204    1    1          0         0      0       0      0      0      for (i = 0; i < n; i++) {
+        400    0    0        400       399      0       0      0      0          register double *B_lin = B;
+      2,000    0    0        400         0      0       0      0      0          register double *B_fin = B + nsq;
+    481,600    1    1          0         0      0       0      0      0          while (B_lin < B_fin) {
+    320,000    0    0          0         0      0       0      0      0              register double sum1 = 0;
+    320,000    0    0          0         0      0       0      0      0              register double sum2 = 0;
+    320,000    0    0          0         0      0       0      0      0              register double sum3 = 0;
+    320,000    0    0          0         0      0       0      0      0              register double sum4 = 0;
+          .    .    .          .         .      .       .      .      .  
+    480,000    0    0          0         0      0       0      0      0              register double *A_fin = A_lin + n;
+ 48,640,000    1    1          0         0      0       0      0      0              while (A_lin < A_fin) {
+ 80,000,000    1    1 32,000,000       401      1       0      0      0                  sum1 += *A_lin * (*B_lin);
+112,000,000    0    0 32,000,000         0      0       0      0      0                  sum2 += *(A_lin + 1) * (*(B_lin + 1));
+112,000,000    0    0 32,000,000 8,020,000 17,890       0      0      0                  sum3 += *(A_lin + 2) * (*(B_lin + 2));
+112,000,000    0    0 32,000,000         0      0       0      0      0                  sum4 += *(A_lin + 3) * (*(B_lin + 3));
+          .    .    .          .         .      .       .      .      .  
+ 16,000,000    0    0          0         0      0       0      0      0                  A_lin += 4;
+ 16,000,000    0    0          0         0      0       0      0      0                  B_lin += 4;
+          .    .    .          .         .      .       .      .      .              }
+    480,000    0    0          0         0      0       0      0      0              A_lin -= n;
+  1,280,000    0    0          0         0      0 160,000 20,001 20,000              *(C_lin) = sum1 + sum2 + sum3 + sum4;
+    160,000    0    0          0         0      0       0      0      0              C_lin++;
+          .    .    .          .         .      .       .      .      .          }
+        800    0    0          0         0      0       0      0      0          A_lin += n;
+          .    .    .          .         .      .       .      .      .      }
+          9    0    0          7         2      1       0      0      0  }
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  // Compute B = A*A^t + C
+         13    0    0          0         0      0      10      0      0  void mult_mat_trans_add(double *B, double *A, double *C, size_t n) {
+          .    .    .          .         .      .       .      .      .      register size_t i;
+          .    .    .          .         .      .       .      .      .      register size_t j;
+          3    1    1          1         0      0       1      0      0      const register size_t nsq = n * n;
+          1    0    0          0         0      0       1      0      0      register size_t ni = 0;
+          .    .    .          .         .      .       .      .      .  
+          8    0    0          3         0      0       1      0      0      memcpy(B, C, n*n*sizeof(*B));
+          .    .    .          .         .      .       .      .      .  
+          1    0    0          1         1      1       0      0      0      register double *A_lin_1 = A;
+          4    1    1          2         0      0       0      0      0      register double *A_lin_2 = A + n;
+          1    0    0          1         0      0       0      0      0      register double *B_lin = B;
+          1    0    0          1         0      0       0      0      0      register double *B_col = B;
+      1,204    1    1        401         0      0       0      0      0      for (i = 0; i < n; i++) {
+    481,200    1    1     80,200         0      0       0      0      0          for (j = i + 1; j < n; j++) {
+    159,600    0    0          0         0      0       0      0      0              register double sum1 = 0;
+     79,800    0    0          0         0      0       0      0      0              register double sum2 = 0;
+    319,200    1    1     79,800         0      0       0      0      0              register double *A_fin = A_lin_1 + n;
+ 48,199,200    1    1          0         0      0       0      0      0              while (A_lin_1 < A_fin) {
+ 79,800,000    0    0 31,920,000 4,007,651 19,209       0      0      0                  sum1 += *A_lin_1 * (*A_lin_2);
+127,680,000    0    0 31,920,000         0      0       0      0      0                  sum2 += *(A_lin_1 + 1) * (*(A_lin_2 + 1));
+ 15,960,000    0    0          0         0      0       0      0      0                  A_lin_1 += 2;
+ 15,960,000    0    0          0         0      0       0      0      0                  A_lin_2 += 2;
+          .    .    .          .         .      .       .      .      .              }
+    319,200    0    0     79,800         0      0       0      0      0              A_lin_1 -= n;
+    558,600    0    0     79,800    10,487  7,389  79,800      0      0              *B_lin += sum1 + sum2;
+          .    .    .          .         .      .       .      .      .              // The output is symmetrical
+    399,000    0    0     79,800    79,378  1,921  79,800      0      0              *B_col += sum1 + sum2;
+          .    .    .          .         .      .       .      .      .  
+     79,800    0    0          0         0      0       0      0      0              B_lin++;
+    239,400    0    0     79,800         0      0       0      0      0              B_col += n;
+          .    .    .          .         .      .       .      .      .              // C_lin++;
+          .    .    .          .         .      .       .      .      .              // C_col += n;
+          .    .    .          .         .      .       .      .      .          }
+      1,200    0    0          0         0      0       0      0      0          B_lin += i + 2;
+      3,600    1    1      1,200       391      0       0      0      0          B_col += 2*n + 1 - nsq + ni;
+          .    .    .          .         .      .       .      .      .          // C_lin += i + 2;
+          .    .    .          .         .      .       .      .      .          // C_col += 2*n + 1 - nsq + ni;
+          .    .    .          .         .      .       .      .      .  
+      1,200    0    0        400         0      0       0      0      0          A_lin_1 += n;
+      2,000    0    0          0         0      0       0      0      0          A_lin_2 -= nsq - ni;
+      1,200    0    0        400         0      0     400      0      0          ni += n;
+      1,200    0    0        400         0      0       0      0      0          A_lin_2 += 2*n;
+          .    .    .          .         .      .       .      .      .      }
+          .    .    .          .         .      .       .      .      .  
+          1    0    0          1         0      0       0      0      0      A_lin_1 = A;
+          1    0    0          1         0      0       0      0      0      A_lin_2 = A;
+          1    0    0          1         0      0       0      0      0      B_lin = B;
+          1    0    0          1         0      0       0      0      0      B_col = B;
+          .    .    .          .         .      .       .      .      .      // C_lin = C;
+          .    .    .          .         .      .       .      .      .      // C_col = C;
+          1    0    0          0         0      0       1      0      0      ni = 0;
+          .    .    .          .         .      .       .      .      .  
+      1,204    2    2        401         0      0       0      0      0      for (i = 0; i < n; i++) {
+        800    0    0          0         0      0       0      0      0          register double sum1 = 0;
+        800    0    0          0         0      0       0      0      0          register double sum2 = 0;
+      1,600    0    0        400         0      0       0      0      0          register double *A_fin = A_lin_1 + n;
+          .    .    .          .         .      .       .      .      .  
+    241,600    1    1          0         0      0       0      0      0          while (A_lin_1 < A_fin) {
+    480,000    0    0    160,000    20,001      0       0      0      0              sum1 += *A_lin_1 * (*A_lin_2);
+    560,000    0    0    160,000         0      0       0      0      0              sum2 += *(A_lin_1 + 1) * (*(A_lin_2 + 1));
+     80,000    0    0          0         0      0       0      0      0              A_lin_1 += 2;
+     80,000    0    0          0         0      0       0      0      0              A_lin_2 += 2;
+          .    .    .          .         .      .       .      .      .          }
+          .    .    .          .         .      .       .      .      .          // Assign the result
+      2,400    0    0        400       400      0     400      0      0          *B_lin += sum1 + sum2;//+ *C_lin;
+          .    .    .          .         .      .       .      .      .  
+      1,600    0    0        400         0      0       0      0      0          B_lin += n + 1;
+      1,600    0    0        400         0      0       0      0      0          B_col += n + 1;
+          .    .    .          .         .      .       .      .      .          // C_lin += n + 1;
+          .    .    .          .         .      .       .      .      .          // C_col += n + 1;
+          .    .    .          .         .      .       .      .      .  
+      1,200    0    0        800         0      0     400      0      0          ni += n;
+          .    .    .          .         .      .       .      .      .      }
+         10    1    1          7         1      1       0      0      0  }
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  // Compute B = A*A^t
+          .    .    .          .         .      .       .      .      .  void mult_mat_trans(double *B, double *A, size_t n) {
+          .    .    .          .         .      .       .      .      .      register size_t i;
+          .    .    .          .         .      .       .      .      .      register size_t j;
+          .    .    .          .         .      .       .      .      .      const register size_t nsq = n * n;
+          .    .    .          .         .      .       .      .      .      register size_t ni = 0;
+          .    .    .          .         .      .       .      .      .  
+-- line 270 ----------------------------------------
+-- line 341 ----------------------------------------
+          .    .    .          .         .      .       .      .      .          A_lin_2 += n;
+          .    .    .          .         .      .       .      .      .      }
+          .    .    .          .         .      .       .      .      .      */
+          .    .    .          .         .      .       .      .      .  }
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .  /*
+          .    .    .          .         .      .       .      .      .   * Add your optimized implementation here
+          .    .    .          .         .      .       .      .      .   */
+         12    1    1          0         0      0       9      1      0  double* my_solver(int N, double *A, double* B) {
+          2    0    0          0         0      0       1      0      0      printf("OPT SOLVER\n");
+          7    1    1          1         0      0       2      0      0      double *C = malloc(N*N * sizeof(*C));
+          7    0    0          1         0      0       2      0      0      double *D = malloc(N*N * sizeof(*D));
+          2    0    0          1         0      0       0      0      0      register size_t n = N;
+          .    .    .          .         .      .       .      .      .      register size_t i;
+          .    .    .          .         .      .       .      .      .      register size_t j;
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      double t1, t2;
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      // Compute C = A * A^t
+          .    .    .          .         .      .       .      .      .      // Knowing A is upper triangular
+          3    0    0          0         0      0       2      0      0      t1 = clock();
+          .    .    .          .         .      .       .      .      .      // register size_t in = 0;
+      1,204    2    2          0         0      0       0      0      0      for (i = 0; i < n; i++) {
+    242,200    0    0          0         0      0       0      0      0          for (j = i; j < n; j++) {
+    240,600    0    0          0         0      0       0      0      0              register size_t start = max(i, j);
+    641,600    0    0     80,200         0      0  80,200 10,431  9,751              C[i*n + j] = 0;
+    160,400    0    0          0         0      0       0      0      0              register double sum = 0;
+    481,200    1    1     80,200         0      0       0      0      0              register double *A_lin_1 = &A[i*n + start];
+    481,200    0    0     80,200         0      0       0      0      0              register double *A_lin_2 = &A[j*n + start];
+    401,000    1    1     80,200         0      0       0      0      0              register double *A_fin = &A[i*n + n];
+ 21,734,200    0    0          0         0      0       0      0      0              while (A_lin_1 < A_fin) {
+          .    .    .          .         .      .       .      .      .              // for (k = start; k < n; k++) {
+ 64,480,800    0    0 21,493,600 1,425,871      0       0      0      0                  sum += *A_lin_1 * (*A_lin_2);
+ 10,746,800    0    0          0         0      0       0      0      0                  A_lin_1++;
+ 10,746,800    0    0          0         0      0       0      0      0                  A_lin_2++;
+          .    .    .          .         .      .       .      .      .              }
+    641,600    1    1     80,200         0      0  80,200      0      0              C[i*n + j] = sum;
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .              // The output is symetrical
+  1,122,800    0    0    240,600         0      0  80,200 77,680 10,249              C[j*n + i] = C[i*n + j];
+          .    .    .          .         .      .       .      .      .          }
+          .    .    .          .         .      .       .      .      .          // in += n;
+          .    .    .          .         .      .       .      .      .      }
+          3    0    0          0         0      0       2      0      0      t2 = clock();
+          7    1    1          3         1      1       1      0      0      printf("T1 %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      // Compute D = B * C
+          .    .    .          .         .      .       .      .      .      // C is symetrical
+          3    0    0          0         0      0       2      0      0      t1 = clock();
+          6    1    1          3         0      0       1      0      0      mul_sym(D, B, C, n);
+          3    0    0          0         0      0       2      1      1      t2 = clock();
+          7    0    0          3         1      1       1      0      0      printf("T2 %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          3    1    1          0         0      0       2      0      0      t1 = clock();
+          .    .    .          .         .      .       .      .      .      // mul_sym_block_2(D, B, C, n);
+          3    0    0          0         0      0       2      0      0      t2 = clock();
+          7    0    0          3         0      0       1      0      0      printf("T_test %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      // Tranpose: B = B^t
+          3    1    1          0         0      0       2      0      0      t1 = clock();
+          5    0    0          1         0      0       1      0      0      transpose(B, n);
+          3    0    0          0         0      0       2      1      0      t2 = clock();
+          7    1    1          3         1      0       1      0      0      printf("T3 %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      // Compute C = B * B^t
+          3    0    0          0         0      0       2      0      0      t1 = clock();
+          6    0    0          3         0      0       1      0      0      mult_mat_trans_add(C, B, D, n);
+          3    1    1          0         0      0       2      1      1      t2 = clock();
+          7    0    0          3         1      1       1      0      0      printf("T4 %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .      // Compute C = C + D
+          .    .    .          .         .      .       .      .      .      // Compute D = D + C
+          3    0    0          0         0      0       2      0      0      t1 = clock();
+          .    .    .          .         .      .       .      .      .      /*
+          .    .    .          .         .      .       .      .      .      for (i = 0; i < n; i += 2) {
+          .    .    .          .         .      .       .      .      .          for (j = i; j < n; j += 2) {
+          .    .    .          .         .      .       .      .      .              D[i*n + j] += C[i*n + j];
+          .    .    .          .         .      .       .      .      .              D[i*n + j + 1] += C[i*n + j + 1];
+          .    .    .          .         .      .       .      .      .              D[j*n + i] += C[j*n + i];
+          .    .    .          .         .      .       .      .      .              D[(j + 1)*n + i] += C[(j + 1)*n + i];
+          .    .    .          .         .      .       .      .      .          }
+-- line 421 ----------------------------------------
+-- line 424 ----------------------------------------
+          .    .    .          .         .      .       .      .      .      for (i = 0; i < n; i++) {
+          .    .    .          .         .      .       .      .      .          for (j = 0; j < n; j += 2) {
+          .    .    .          .         .      .       .      .      .  
+          .    .    .          .         .      .       .      .      .              D[i*n + j] += C[i*n + j];
+          .    .    .          .         .      .       .      .      .              D[i*n + j + 1] += C[i*n + j + 1];
+          .    .    .          .         .      .       .      .      .          }
+          .    .    .          .         .      .       .      .      .      }
+          .    .    .          .         .      .       .      .      .      */
+          3    1    1          0         0      0       2      0      0      t2 = clock();
+          7    0    0          3         0      0       1      0      0      printf("T5 %f\n", (t2 - t1) / CLOCKS_PER_SEC);
+          .    .    .          .         .      .       .      .      .  
+          3    0    0          1         0      0       1      0      0      free(C);
+          .    .    .          .         .      .       .      .      .      
+          1    1    1          1         0      0       0      0      0      return D;
+          8    0    0          7         1      1       0      0      0  }
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  /build/glibc-sMfBJT/glibc-2.31/stdlib/rand.c
+  /build/glibc-sMfBJT/glibc-2.31/stdlib/random.c
+  /build/glibc-sMfBJT/glibc-2.31/stdlib/random_r.c
+
+--------------------------------------------------------------------------------
+Ir          I1mr ILmr Dr          D1mr       DLmr   Dw        D1mw    DLmw   
+--------------------------------------------------------------------------------
+910,970,504   85   85 217,323,138 13,588,032 55,784 1,283,033 138,621 70,501  events annotated
+

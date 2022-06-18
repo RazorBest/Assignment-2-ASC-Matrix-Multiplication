@@ -1,0 +1,13 @@
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=40: Time=0.000197
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=120: Time=0.002862
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=200: Time=0.008292
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=400: Time=0.067937
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=500: Time=0.131078
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=800: Time=0.479775
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1000: Time=0.933924
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1200: Time=1.632737
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1600: Time=3.761991
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1720: Time=5.035608
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1800: Time=5.605639
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=1920: Time=6.923026
+Run=/export/home/acs/stud/m/marius.pricop/asc/tema2/./tema2_opt_m: N=2000: Time=7.842907
