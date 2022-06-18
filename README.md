@@ -1,5 +1,22 @@
 # Assignment 2 - Computer Architectures
 
+## Problem statmement
+Perform the following operation with matrices:
+```
+C = B x A x A^t + B^t x B
+```
+Where:
+- A and B are square matrices of size NxN
+- A is **upper triangular**
+- A^t means the transpose of matrix A
+- `x` is the matrix multiplication operation
+- `+` is the matrix addition operation
+
+We want to implement the above operation in 3 ways:
+- `blas` - a variant that only uses functions from [Blas Atlas](http://www.netlib.org/blas/).
+- `neopt` - an unoptimised version.
+- `opt_m` - an optimised version which has the same algorithmic complexity as `neopt` (You can't use other algorithms for matrix multiplication; eg. Strassen). The optimisations have to target the source code, specific architecture features, CPU instructions, cache usage, register usage, auxiliary variables. pointer arithmetic etc.
+
 ## The unoptimised implementation
 This implementation used 3 types of matrix multiplication. But all 3 are
 multiplication with a tranposed matrix. We first compute A*A^t, knowing that
