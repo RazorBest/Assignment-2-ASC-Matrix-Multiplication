@@ -1,7 +1,7 @@
 # Assignment 2 - Computer Architectures
 
 ## Problem statmement
-Perform the following operation with matrices:
+Perform the following matrix operation:
 ```
 C = B x A x A^t + B^t x B
 ```
